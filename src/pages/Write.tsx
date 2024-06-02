@@ -88,35 +88,38 @@ const SaveButton = styled.button`
 
 const Write = () => {
   // todo (5) 게시글 작성 페이지 만들기
-  const navigate = useNavigate();
   const { state } = useLocation();
   const isEdit = state?.postId;
+  const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
   const [tag, setTag] = useState<TAG>(TAG.REACT);
   const tagList = Object.keys(TAG);
 
-  const { data: post, isSuccess: isSuccessfetchPost } = useGetPostById(state?.postId);
+  const { data: post, isSuccess: isSuccessFetchPost } = useGetPostById(state?.postId);
   const { mutate: createPost, isSuccess: isSuccessCreatePost } = useCreatePost();
   const { mutate: updatePost, isSuccess: isSuccessUpdatePost } = useUpdatePostById();
 
   useEffect(() => {
-    if (isSuccessfetchPost) {
+    if (isSuccessFetchPost) {
       setTitle(post?.title);
       setContents(post?.contents);
       setTag(post?.tag);
     }
-  }, [isSuccessfetchPost]);
+  }, [isSuccessFetchPost]);
+
   const clickConfirm = () => {
     if (!title || !contents) {
       alert('빈 값이 있습니다.');
       return;
     }
+
     if (isEdit) {
-      updatePost({ postId: state.postId, title, contents, tag });
+      updatePost({ postId: state.postId, title, contents: contents, tag });
     } else {
-      createPost({ title, contents, tag });
+      createPost({ title, contents: contents, tag });
     }
+
     if (isSuccessCreatePost || isSuccessUpdatePost) {
       navigate('/');
     }
@@ -137,13 +140,13 @@ const Write = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div style={{ height: 'calc(100% - 4rem)', paddingBottom: '4rem' }}>
-        <TitleInput placeholder="제목를 선택하세요" value={title} onChange={handleChangeTitle} />
+        <TitleInput placeholder="제목를 입력하세요" value={title} onChange={handleChangeTitle} />
         <TagSelect placeholder="태그를 선택하세요" value={tag} onChange={handleChangeTag}>
           {tagList.map(tag => (
             <option key={tag}>{tag}</option>
           ))}
         </TagSelect>
-        <Editor placeholder="내용를 선택하세요" value={contents} onChange={handleChangeContents} />
+        <Editor placeholder="내용를 입력하세요" value={contents} onChange={handleChangeContents} />
       </div>
       <BottomSheet>
         <Link to="/">

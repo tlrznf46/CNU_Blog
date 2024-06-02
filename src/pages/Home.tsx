@@ -17,7 +17,7 @@ const Home = () => {
     <div>
       {postList.map(item => (
         // eslint-disable-next-line react/jsx-key
-        <PostListItem id={`${item.id}`} title={item.title} contents={item.contents} tag={item.tag} />
+        <PostListItem key={item.id} {...item} />
       ))}
     </div>
   );

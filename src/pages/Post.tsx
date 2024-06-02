@@ -64,6 +64,7 @@ const Post = () => {
   const { postId = `` } = params;
   const { data: post, isError, isLoading } = useGetPostById(postId);
   const { mutate: deletePost } = useDeletePostById();
+
   const clickDeleteButton = () => {
     const result = window.confirm('정말로 게시글을 삭제하시겠습니까?');
     if (result) {
@@ -88,8 +89,8 @@ const Post = () => {
             <div>n분전</div>
           </Info>
           <div>
-            <Link to="/write" state={{ postId }}>
-              <TextButton style={{ marginRight: 10 }}>수정</TextButton>
+            <Link to="/write" state={{ postId }} style={{ marginRight: 10 }}>
+              <TextButton>수정</TextButton>
             </Link>
             <TextButton onClick={clickDeleteButton}>삭제</TextButton>
           </div>
@@ -101,7 +102,7 @@ const Post = () => {
         )}
       </div>
       <ContentsArea>
-        {post.contents.split('\n').map((text, index) => (
+        {post?.contents?.split('\n').map((text, index) => (
           <Text key={index}>{text}</Text>
         ))}
       </ContentsArea>
