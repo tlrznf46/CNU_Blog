@@ -97,8 +97,8 @@ const Write = () => {
   const tagList = Object.keys(TAG);
 
   const { data: post, isSuccess: isSuccessfetchPost } = useGetPostById(state?.postId);
-  const { mutation: createPost, isSuccess: isSuccessCreatePost } = useCreatePost();
-  const { mutation: updatePost, isSuccess: isSuccessUpdatePost } = useUpdatePostById();
+  const { mutate: createPost, isSuccess: isSuccessCreatePost } = useCreatePost();
+  const { mutate: updatePost, isSuccess: isSuccessUpdatePost } = useUpdatePostById();
 
   useEffect(() => {
     if (isSuccessfetchPost) {
